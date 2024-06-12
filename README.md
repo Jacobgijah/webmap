@@ -1,0 +1,1 @@
+# A Django Web map application

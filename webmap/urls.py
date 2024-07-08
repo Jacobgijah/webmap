@@ -19,6 +19,10 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+admin.site.site_header = 'Drone nofly zone'
+admin.site.site_title = 'Admin'
+admin.site.index_title = 'Admin panel'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('map.urls')),

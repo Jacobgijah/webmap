@@ -2,202 +2,295 @@
 {% load static %}
 {% load leaflet_tags %}
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Map</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Drone nofly zone</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  {% leaflet_js %}
+  {% leaflet_css %}
+  
+  <style type="text/css">
+    body {
+      background: #f7f7f7;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      display: flex;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .section-title {
+      text-align: center;
+      padding: 25px 0;
+      width: 100%;
+    }
+
+    .section-title h2 {
+      font-size: 25px;
+      text-transform: uppercase;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+
+    .section-title h2 span {
+      background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+      padding: 5px 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    #gis {
+      width: 70%;
+      height: 595px;
+      background: #fff;
+      box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+      margin: 20px;
+      display: flex;
+      justify-content: center;
+    }
     
+    /* Custom styles for Leaflet controls */
+    .leaflet-control-layers {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+      overflow: hidden;
+      background: white; /* Ensure background is visible */
+    }
+
+    .leaflet-control-layers-expanded {
+      background: #fff;
+      border: 1px solid #ccc;
+    }
+
+    .leaflet-control-layers-list {
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    .leaflet-control-layers-base,
+    .leaflet-control-layers-separator,
+    .leaflet-control-layers-overlays {
+      padding: 5px 0;
+    }
+
+    .leaflet-control-layers label {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .leaflet-control-layers input[type="checkbox"] {
+      margin-right: 5px;
+    }
+
+    .leaflet-control-layers-selector {
+      margin-right: 5px;
+    }
+
+    /* Styles for the legend */
+    .legend {
+      background: white;
+      padding: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      border-radius: 5px;
+      position: absolute;
+      bottom: 30px;
+      right: 30px;
+      z-index: 1000;
+      font-family: Arial, sans-serif;
+    }
     
-    {% leaflet_js %}
-    {% leaflet_css %}
+    .legend h4 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
     
-    <style type="text/css">
-      body {
-        background: #f7f7f7;
-      }
+    .legend div {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+    
+    .legend div span {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      border-radius: 3px;
+    }
 
-      .section-title {
-        text-align: center;
-        padding: 25px 0;
-      }
+    .shadow-circle {
+      filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+    }
 
-      .section-title h2 {
-        font-size: 25px;
-        text-transform: uppercase;
-        font-family: oswald;
-        font-weight: 700;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-      }
+    .form-container {
+      width: 30%;
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+      margin: 20px;
+    }
 
-      #gis {
-        width: 1000px;
-        height: 595px;
-        background: #fff;
-        box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-        margin: 0 auto; 
-        display: flex;
-        justify-content: center;
-      }
-      
-      /* Custom styles for Leaflet controls */
-      .leaflet-control-layers {
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-        border-radius: 5px;
-        overflow: hidden;
-        background: white; /* Ensure background is visible */
-      }
+    .form-container label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
 
-      .leaflet-control-layers-expanded {
-        background: #fff;
-        border: 1px solid #ccc;
-      }
+    .form-container input[type="text"] {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
 
-      .leaflet-control-layers-list {
-        max-height: 300px;
-        overflow-y: auto;
-        padding: 10px;
-      }
+    .form-container button {
+      padding: 10px 20px;
+      border: none;
+      background: #007bff;
+      color: #fff;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 16px;
+    }
 
-      .leaflet-control-layers-base,
-      .leaflet-control-layers-separator,
-      .leaflet-control-layers-overlays {
-        padding: 5px 0;
-      }
+    .form-container button:hover {
+      background: #0056b3;
+    }
 
-      .leaflet-control-layers label {
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        color: #333;
-      }
-
-      .leaflet-control-layers input[type="checkbox"] {
-        margin-right: 5px;
-      }
-
-      .leaflet-control-layers-selector {
-        margin-right: 5px;
-      }
-
-    </style>
-    <link rel="stylesheet" href="{% static 'dist/css/leaflet.groupedlayercontrol.css' %}">
-    <script type="text/javascript" src="{% static 'dist/js/leaflet.ajax.js' %}" async defer></script>
-    <script type="text/javascript" src="{% static 'dist/js/leaflet.groupedlayercontrol.js' %}" async defer></script>
-  </head>
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 col-sm-12 col-xs-12">
-          <div class="section-title">
-            <h2><span>Map</span></h2>
-          </div>
-        </div>
-
-      {% leaflet_map "gis" callback="window.our_layers" %}
+    .result {
+      margin-top: 20px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'dist/css/leaflet.groupedlayercontrol.css' %}">
+  <script type="text/javascript" src="{% static 'dist/js/leaflet.ajax.js' %}" async defer></script>
+  <script type="text/javascript" src="{% static 'dist/js/leaflet.groupedlayercontrol.js' %}" async defer></script>
+</head>
+<body>
+<div class="container">
+  <div class="form-container">
+    <div class="section-title">
+      <h2><span>DRONE NOFLY ZONE</span></h2>
     </div>
+    <form id="coordinate-form">
+      <label for="latitude">Latitude:</label>
+      <input type="text" id="latitude" name="latitude" required>
 
-    <script type="text/javascript" async defer>
-      function our_layers(map, options) {
-        var osm = L.tileLayer('/home/jeco/myprojects/django/webmap/webmap/webmap/map/data/base map.tif', {
-            attribution: '© OpenStreetMap'
-        });
+      <label for="longitude">Longitude:</label>
+      <input type="text" id="longitude" name="longitude" required>
 
-       /* var osmHOT = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
-          maxZoom: 19,
-          attribution: '© OpenStreetMap contributors, Tiles style by Humanitarian OpenStreetMap Team hosted by OpenStreetMap France'}
-        );*/
+      <button type="submit">Submit</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
 
-        var boundary = new L.GeoJSON.AJAX("{% url 'boundary' %}", {
-          color: 'black',
+  <div id="gis"></div>
+
+  <div class="legend">
+    <h4>Legend</h4>
+    <div><span style="background: black; opacity: 0.1;"></span>Boundary</div>
+    <div><span style="background: red; opacity: 0.2;"></span>Prohibited</div>
+    <div><span style="background: brown; opacity: 0.9;"></span>Railway</div>
+    <div><span style="background: green; opacity: 0.5;"></span>Recommended</div>
+    <div><span style="background: blue; opacity: 0.9;"></span>River</div>
+    <div><span style="background: orange; opacity: 0.2;"></span>Warning</div>
+  </div>
+</div>
+
+<script type="text/javascript" async defer>
+  var map = L.map('gis').setView([-6.8781, 39.2026], 13); // Initialize the map with default center and zoom
+
+  function our_layers(map, options) {
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    var boundary = new L.GeoJSON.AJAX("{% url 'boundary' %}", {
+      color: 'black',
+      fillOpacity: 0.1
+    }).addTo(map);
+
+    var prohibited = new L.GeoJSON.AJAX("{% url 'prohibited' %}", {
+      onEachFeature: function(feature, layer) {
+        layer.bindPopup(feature.properties.layer.toString());
+      },
+      style: function(feature) {
+        return {
+          color: 'red',
           fillOpacity: 0.2
-        });
-
-        var prohibited = new L.GeoJSON.AJAX("{% url 'prohibited' %}", {
-          
-          onEachFeature: function(feature, layer) {
-            layer.bindPopup(feature.properties.layer.toString());
-          },
-          
-          style: function(feature) {
-            return {
-              color: 'red',
-              fillOpacity: 0.8
-            };
-          },
-
-        });
-
-
-        var railway = new L.GeoJSON.AJAX("{% url 'railway' %}", {
-          color: 'brown',
-        });
-
-        var recomended = new L.GeoJSON.AJAX("{% url 'recomended' %}", {
-          pointToLayer: function (feature, latlng) {
-            return L.circleMarker(latlng, {
-              radius: 8,
-              fillColor: 'green',
-              color: '#000',
-              weight: 1,
-              opacity: 1,
-              fillOpacity: 0.8,
-              className: 'shadow-circle'
-            });
-          }
-        });
-
-        var river = new L.GeoJSON.AJAX("{% url 'river' %}", {
-          color: 'blue',
-        });
-
-        var warning = new L.GeoJSON.AJAX("{% url 'warning' %}", {
-                  
-          onEachFeature: function(feature, layer) {
-            layer.bindPopup(feature.properties.layer.toString());
-          },
-          
-          style: function(feature) {
-            return {
-              color: 'orange',
-              fillOpacity: 0.8
-            };
-          },
-
-        });
-
-        boundary.addTo(map);
-        prohibited.addTo(map);
-        railway.addTo(map);
-        recomended.addTo(map);
-        river.addTo(map);
-        warning.addTo(map);
-
-        var baseLayers = {
-          "OpenStreetMap": osm,
-          //"OpenStreetMap.HOT": osmHOT
-        }
-
-        var groupedOverlays = {
-          "Layers": {
-            "boundary": boundary,
-            "prohibited": prohibited,
-            "railway": railway,
-            "recomended": recomended,
-            "river": river,
-            "warning": warning,
-          },
         };
+      },
+    }).addTo(map);
 
-        L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
+    var railway = new L.GeoJSON.AJAX("{% url 'railway' %}", {
+      color: 'brown',
+      fillOpacity: 0.9,
+    }).addTo(map);
 
+    var recomended = new L.GeoJSON.AJAX("{% url 'recomended' %}", {
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, {
+          radius: 8,
+          fillColor: 'green',
+          color: '#000',
+          weight: 1,
+          opacity: 1,
+          fillOpacity: 0.5,
+          className: 'shadow-circle'
+        });
       }
-    </script>
+    }).addTo(map);
 
-    <style>
-      .shadow-circle {
-        filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
-      }
-    </style>
-  </body>
+    var river = new L.GeoJSON.AJAX("{% url 'river' %}", {
+      color: 'blue',
+      fillOpacity: 0.9,
+    }).addTo(map);
+
+    var warning = new L.GeoJSON.AJAX("{% url 'warning' %}", {
+      onEachFeature: function(feature, layer) {
+        layer.bindPopup(feature.properties.layer.toString());
+      },
+      style: function(feature) {
+        return {
+          color: 'orange',
+          fillOpacity: 0.2
+        };
+      },
+    }).addTo(map);
+
+    var baseLayers = {
+      "OpenStreetMap": osm,
+    };
+
+    var groupedOverlays = {
+      "Layers": {
+        "Boundary": boundary,
+        "Prohibited": prohibited,
+        "Railway": railway,
+        "Recommended": recomended,
+        "River": river,
+        "Warning": warning
+      },
+    };
+
+    L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
+  }
+
+  our_layers(map);
+</script>
+</body>
 </html>

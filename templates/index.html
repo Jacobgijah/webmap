@@ -183,6 +183,7 @@
       font-weight: bold;
     }
   </style>
+
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{% static 'dist/css/leaflet.groupedlayercontrol.css' %}">
   <script type="text/javascript" src="{% static 'dist/js/leaflet.ajax.js' %}" async defer></script>
@@ -298,7 +299,10 @@
     L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
   }
 
-  our_layers(map);
+  // Ensure Leaflet and plugins are fully loaded before calling our_layers
+  document.addEventListener('DOMContentLoaded', function () {
+      our_layers(map);
+  });
 </script>
 </body>
 </html>

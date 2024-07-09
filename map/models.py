@@ -19,7 +19,7 @@ class Prohibited(models.Model):
     geom = models.MultiPolygonField(srid=4326)
 
     class Meta:
-      verbose_name_plural = "Prohibited"
+      verbose_name_plural = "Prohibited Area"
 
     def __str__(self):
         return f'Prohibited Area {self.id}'

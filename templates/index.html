@@ -53,8 +53,7 @@
       background: #fff;
       box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
       margin: 20px;
-      display: flex;
-      justify-content: center;
+      position: relative; /* Added for positioning the legend */
     }
     
     /* Custom styles for Leaflet controls */
@@ -99,27 +98,36 @@
     /* Styles for the legend */
     .legend {
       background: white;
-      padding: 10px;
+      padding: 10px 20px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      border-radius: 5px;
+      border-radius: 8px;
       position: absolute;
-      bottom: 30px;
-      right: 30px;
+      bottom: 10px; /* Adjusted for positioning at the bottom */
+      left: 50%;
+      transform: translateX(-50%);
       z-index: 1000;
       font-family: Arial, sans-serif;
+      width: auto;
     }
-    
+
     .legend h4 {
-      margin: 0 0 10px;
-      font-size: 16px;
+      margin: 0 0 15px;
+      font-size: 18px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
     }
-    
+
     .legend div {
       display: flex;
       align-items: center;
-      margin-bottom: 5px;
+      margin-bottom: 8px;
     }
-    
+
+    .legend div:last-child {
+      margin-bottom: 0;
+    }
+
     .legend div span {
       display: inline-block;
       width: 20px;
@@ -198,16 +206,16 @@
     <div class="result" id="result"></div>
   </div>
 
-  <div id="gis"></div>
-
-  <div class="legend">
-    <h4>Legend</h4>
-    <div><span style="background: black; opacity: 0.1;"></span>Boundary</div>
-    <div><span style="background: red; opacity: 0.2;"></span>Prohibited</div>
-    <div><span style="background: brown; opacity: 0.9;"></span>Railway</div>
-    <div><span style="background: green; opacity: 0.5;"></span>Recommended</div>
-    <div><span style="background: blue; opacity: 0.9;"></span>River</div>
-    <div><span style="background: orange; opacity: 0.2;"></span>Warning</div>
+  <div id="gis">
+    <div class="legend">
+      <h4>Key</h4>
+      <div><span style="background: black; opacity: 0.1;"></span>Boundary</div>
+      <div><span style="background: red; opacity: 0.2;"></span>Prohibited</div>
+      <div><span style="background: brown; opacity: 0.9;"></span>Railway</div>
+      <div><span style="background: green; opacity: 0.5;"></span>Recommended</div>
+      <div><span style="background: blue; opacity: 0.9;"></span>River</div>
+      <div><span style="background: orange; opacity: 0.2;"></span>Warning</div>
+    </div>
   </div>
 </div>
 

@@ -27,12 +27,12 @@
 
     .section-title {
       text-align: center;
-      padding: 25px 0;
+      padding: 0px 0;
       width: 100%;
     }
 
     .section-title h2 {
-      font-size: 25px;
+      font-size: 20px;
       text-transform: uppercase;
       font-family: 'Oswald', sans-serif;
       font-weight: 700;
@@ -48,8 +48,8 @@
     }
 
     #gis {
-      width: 70%;
-      height: 595px;
+      width: 80%;
+      height: 555px;
       background: #fff;
       box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
       margin: 20px;
@@ -97,17 +97,15 @@
 
     /* Styles for the legend */
     .legend {
-      background: white;
+      background: #fff;
       padding: 10px 20px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       border-radius: 8px;
       position: absolute;
-      bottom: 0px; /* Adjusted for positioning at the bottom */
-      left: 86%;
-      transform: translateX(-50%);
-      z-index: 1000;
+      bottom: 25px; /* Adjusted for positioning at the bottom */
       font-family: Arial, sans-serif;
-      width: auto;
+      width: 150px;
+      left: 160px;
     }
 
     .legend h4 {
@@ -141,7 +139,8 @@
     }
 
     .form-container {
-      width: 30%;
+      width: 20%;
+      height: 250px;
       background: #fff;
       padding: 20px;
       border-radius: 5px;
@@ -209,15 +208,16 @@
 
   <div id="gis">
   </div>
-    <div class="legend">
-      <h4>Key</h4>
-      <div><span style="background: black; opacity: 0.1;"></span>Boundary</div>
-      <div><span style="background: red; opacity: 0.2;"></span>Prohibited</div>
-      <div><span style="background: brown; opacity: 0.9;"></span>Railway</div>
-      <div><span style="background: green; opacity: 0.5;"></span>Recommended</div>
-      <div><span style="background: blue; opacity: 0.9;"></span>River</div>
-      <div><span style="background: orange; opacity: 0.2;"></span>Warning</div>
-    </div>
+
+  <div class="legend">
+    <h4>Legend</h4>
+    <div><span style="background: #489835; border: 1px solid #489835; opacity: 0.5;"></span>Boundary</div>
+    <div><span style="background: #913831; border: 1px solid #FF4433; opacity: 0.5;"></span>Prohibited</div>
+    <div><span style="background: #000000; border: 1px solid #000000; opacity: 0.9;"></span>Railway</div>
+    <div><span style="background: #fff; border: 1px solid #489835; opacity: 0.5;"></span>Recommended</div>
+    <div><span style="background: #0096FF; border: 1px solid #0096FF; opacity: 0.9;"></span>River</div>
+    <div><span style="background: #FFBF00; border: 1px solid #FFBF00; opacity: 0.5;"></span>Warning</div>
+  </div>
 </div>
 
 <script type="text/javascript" async defer>
@@ -229,7 +229,7 @@
     }).addTo(map);
 
     var boundary = new L.GeoJSON.AJAX("{% url 'boundary' %}", {
-      color: 'black',
+      color: '#489835',
       fillOpacity: 0.1
     }).addTo(map);
 
@@ -239,14 +239,15 @@
       },
       style: function(feature) {
         return {
-          color: 'red',
+          fillColor: '#913831',
+          color: '#FF4433',
           fillOpacity: 0.2
         };
       },
     }).addTo(map);
 
     var railway = new L.GeoJSON.AJAX("{% url 'railway' %}", {
-      color: 'brown',
+      color: '#000000',
       fillOpacity: 0.9,
     }).addTo(map);
 
@@ -254,8 +255,8 @@
       pointToLayer: function (feature, latlng) {
         return L.circleMarker(latlng, {
           radius: 8,
-          fillColor: 'green',
-          color: '#000',
+          fillColor: '#fff',
+          color: '#489835',
           weight: 1,
           opacity: 1,
           fillOpacity: 0.5,
@@ -265,7 +266,7 @@
     }).addTo(map);
 
     var river = new L.GeoJSON.AJAX("{% url 'river' %}", {
-      color: 'blue',
+      color: '#0096FF',
       fillOpacity: 0.9,
     }).addTo(map);
 
@@ -275,7 +276,8 @@
       },
       style: function(feature) {
         return {
-          color: 'orange',
+          fillColor: '#FFBF00',
+          color: '#FFBF00',
           fillOpacity: 0.2
         };
       },

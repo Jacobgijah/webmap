@@ -12,408 +12,239 @@
   {% leaflet_js %}
   {% leaflet_css %}
   
-  {% comment %} <style type="text/css">
-    body {
-      background: #f7f7f7;
-      font-family: Arial, sans-serif  ;
-    }
 
-    .container {
-      display: flex;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    .section-title {
-      text-align: center;
-      padding: 0px 0;
-      width: 100%;
-    }
-
-    .section-title h2 {
-      font-size: 20px;
-      text-transform: uppercase;
-      font-family: 'Oswald', sans-serif;
-      font-weight: 700;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-      color: #333;
-    }
-
-    .section-title h2 span {
-      background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-      padding: 5px 10px;
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-
-    #gis {
-      width: 80%;
-      height: 555px;
-      background: #fff;
-      box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-      margin: 20px;
-      position: relative; /* Added for positioning the legend */
-    }
-    
-    /* Custom styles for Leaflet controls */
-    .leaflet-control-layers {
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      border-radius: 5px;
-      overflow: hidden;
-      background: white; /* Ensure background is visible */
-    }
-
-    .leaflet-control-layers-expanded {
-      background: #fff;
-      border: 1px solid #ccc;
-    }
-
-    .leaflet-control-layers-list {
-      max-height: 300px;
-      overflow-y: auto;
-      padding: 10px;
-    }
-
-    .leaflet-control-layers-base,
-    .leaflet-control-layers-separator,
-    .leaflet-control-layers-overlays {
-      padding: 5px 0;
-    }
-
-    .leaflet-control-layers label {
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      color: #333;
-    }
-
-    .leaflet-control-layers input[type="checkbox"] {
-      margin-right: 5px;
-    }
-
-    .leaflet-control-layers-selector {
-      margin-right: 5px;
-    }
-
-    /* Styles for the legend */
-    .legend {
-      background: #fff;
-      padding: 10px 20px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
-      position: absolute;
-      bottom: 25px; /* Adjusted for positioning at the bottom */
-      font-family: Arial, sans-serif;
-      width: 150px;
-      left: 160px;
-    }
-
-    .legend h4 {
-      margin: 0 0 15px;
-      font-size: 18px;
-      text-align: center;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 10px;
-    }
-
-    .legend div {
-      display: flex;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .legend div:last-child {
-      margin-bottom: 0;
-    }
-
-    .legend div span {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-      border-radius: 3px;
-    }
-
-    .shadow-circle {
-      filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
-    }
-
-    .form-container {
-      width: 20%;
-      height: 250px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-      margin: 20px;
-    }
-
-    .form-container label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-
-    .form-container input[type="text"] {
-      width: calc(100% - 20px);
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-    }
-
-    .form-container button {
-      padding: 10px 20px;
-      border: none;
-      background: #007bff;
-      color: #fff;
-      border-radius: 3px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .form-container button:hover {
-      background: #0056b3;
-    }
-
-    .result {
-      margin-top: 20px;
-      font-size: 16px;
-      font-weight: bold;
-    }
-  </style> {% endcomment %}
   <style type="text/css">
-  body {
-    background: #f7f7f7;
-    font-family: Arial, sans-serif;
-  }
+      body {
+        background: #f7f7f7;
+        font-family: Arial, sans-serif;
+      }
 
-  .container {
-    display: flex;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
+      .container {
+        display: flex;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
 
-  .section-title {
-    text-align: center;
-    padding: 0px 0;
-    width: 100%;
-  }
+      .section-title {
+        text-align: center;
+        padding: 0px 0;
+        width: 100%;
+      }
 
-  .section-title h2 {
-    font-size: 20px;
-    text-transform: uppercase;
-    font-family: 'Oswald', sans-serif;
-    font-weight: 700;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    color: #333;
-  }
+      .section-title h2 {
+        font-size: 20px;
+        text-transform: uppercase;
+        font-family: 'Oswald', sans-serif;
+        font-weight: 700;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        color: #333;
+      }
 
-  .section-title h2 span {
-    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-    padding: 5px 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
+      .section-title h2 span {
+        background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+        padding: 5px 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
 
-  #gis {
-    width: 80%;
-    height: 555px;
-    background: #fff;
-    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-    margin: 20px;
-    position: relative; /* Added for positioning the legend */
-  }
-  
-  /* Custom styles for Leaflet controls */
-  .leaflet-control-layers {
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-    overflow: hidden;
-    background: white; /* Ensure background is visible */
-  }
+      #gis {
+        width: 80%;
+        height: 555px;
+        background: #fff;
+        box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+        margin: 20px;
+        position: relative; /* Added for positioning the legend */
+      }
+      
+      /* Custom styles for Leaflet controls */
+      .leaflet-control-layers {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        overflow: hidden;
+        background: white; /* Ensure background is visible */
+      }
 
-  .leaflet-control-layers-expanded {
-    background: #fff;
-    border: 1px solid #ccc;
-  }
+      .leaflet-control-layers-expanded {
+        background: #fff;
+        border: 1px solid #ccc;
+      }
 
-  .leaflet-control-layers-list {
-    max-height: 300px;
-    overflow-y: auto;
-    padding: 10px;
-  }
+      .leaflet-control-layers-list {
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 10px;
+      }
 
-  .leaflet-control-layers-base,
-  .leaflet-control-layers-separator,
-  .leaflet-control-layers-overlays {
-    padding: 5px 0;
-  }
+      .leaflet-control-layers-base,
+      .leaflet-control-layers-separator,
+      .leaflet-control-layers-overlays {
+        padding: 5px 0;
+      }
 
-  .leaflet-control-layers label {
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    color: #333;
-  }
+      .leaflet-control-layers label {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: #333;
+      }
 
-  .leaflet-control-layers input[type="checkbox"] {
-    margin-right: 5px;
-  }
+      .leaflet-control-layers input[type="checkbox"] {
+        margin-right: 5px;
+      }
 
-  .leaflet-control-layers-selector {
-    margin-right: 5px;
-  }
+      .leaflet-control-layers-selector {
+        margin-right: 5px;
+      }
 
-  /* Styles for the legend */
-  .legend {
-    background: #fff;
-    padding: 10px 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    position: absolute;
-    bottom: 25px; /* Adjusted for positioning at the bottom */
-    font-family: Arial, sans-serif;
-    width: 150px;
-    left: 160px;
-  }
+      /* Styles for the legend */
+      .legend {
+        background: #fff;
+        padding: 10px 20px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        position: absolute;
+        bottom: 25px; /* Adjusted for positioning at the bottom */
+        font-family: Arial, sans-serif;
+        width: 150px;
+        left: 160px;
+      }
 
-  .legend h4 {
-    margin: 0 0 15px;
-    font-size: 18px;
-    text-align: center;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-  }
+      .legend h4 {
+        margin: 0 0 15px;
+        font-size: 18px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 10px;
+      }
 
-  .legend div {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
-  }
+      .legend div {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+      }
 
-  .legend div:last-child {
-    margin-bottom: 0;
-  }
+      .legend div:last-child {
+        margin-bottom: 0;
+      }
 
-  .legend div span {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-    border-radius: 3px;
-  }
+      .legend div span {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        border-radius: 3px;
+      }
 
-  .shadow-circle {
-    filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
-  }
+      .shadow-circle {
+        filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+      }
 
-  .form-container {
-    width: 20%;
-    height: 255px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-    margin: 20px;
-  }
+      .form-container {
+        width: 20%;
+        height: 255px;
+        background: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+        margin: 20px;
+      }
 
-  .form-container label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
+      .form-container label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
 
-  .form-container input[type="text"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-  }
+      .form-container input[type="text"] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+      }
 
-  .form-container button {
-    padding: 10px 20px;
-    border: none;
-    background: #007bff;
-    color: #fff;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 16px;
-  }
+      .form-container button {
+        padding: 10px 20px;
+        border: none;
+        background: #007bff;
+        color: #fff;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 16px;
+      }
 
-  .form-container button:hover {
-    background: #0056b3;
-  }
+      .form-container button:hover {
+        background: #0056b3;
+      }
 
-  #result {
-    margin-top: 8px;
-    font-size: 16px;
-  }
+      #result {
+        margin-top: 8px;
+        font-size: 16px;
+      }
 
-  .success-message {
-    color: green;
-    font-weight: bold;
-  }
+      .success-message {
+        color: green;
+        font-weight: bold;
+      }
 
-  .legend span {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 5px; /* Adjusted margin */
-    border-radius: 3px;
-  }
+      .legend span {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        margin-right: 5px; /* Adjusted margin */
+        border-radius: 3px;
+      }
 
-  /* Style for the loader */
-  .loader {
-    display: inline-block;
-    border: 3px solid rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    border-top-color: #3498db;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s ease-in-out infinite;
-    -webkit-animation: spin 1s ease-in-out infinite;
-  }
+      /* Style for the loader */
+      .loader {
+        display: inline-block;
+        border: 3px solid rgba(0, 0, 0, 0.1);
+        border-radius: 50%;
+        border-top-color: #3498db;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s ease-in-out infinite;
+        -webkit-animation: spin 1s ease-in-out infinite;
+      }
 
-  @keyframes spin {
-    to {
-      -webkit-transform: rotate(360deg);
-    }
-  }
+      @keyframes spin {
+        to {
+          -webkit-transform: rotate(360deg);
+        }
+      }
 
-  @-webkit-keyframes spin {
-    to {
-      -webkit-transform: rotate(360deg);
-    }
-  }
+      @-webkit-keyframes spin {
+        to {
+          -webkit-transform: rotate(360deg);
+        }
+      }
 
-  /* Style for the preloader */
-  .preloader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
-  }
+      /* Style for the preloader */
+      .preloader {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: rgba(255, 255, 255, 0.7); /* Semi-transparent background */
+      }
 
-  .preloader.hidden {
-    animation: fadeOut 1s;
-    animation-fill-mode: forwards;
-  }
+      .preloader.hidden {
+        animation: fadeOut 1s;
+        animation-fill-mode: forwards;
+      }
 
-  @keyframes fadeOut {
-    100% {
-      opacity: 0;
-      visibility: hidden;
-    }
-  }
-</style>
+      @keyframes fadeOut {
+        100% {
+          opacity: 0;
+          visibility: hidden;
+        }
+      }
+  </style>
 
 
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
@@ -453,209 +284,6 @@
   </div>
 </div>
 
-{% comment %} <script type="text/javascript" async defer>
-  var map = L.map('gis').setView([-6.8781, 39.2026], 13); // Initialize the map with default center and zoom
-
-  function our_layers(map, options) {
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
-
-    var boundary = new L.GeoJSON.AJAX("{% url 'boundary' %}", {
-      color: '#489835',
-      fillOpacity: 0.1
-    }).addTo(map);
-
-    var prohibited = new L.GeoJSON.AJAX("{% url 'prohibited' %}", {
-      onEachFeature: function(feature, layer) {
-        layer.bindPopup(feature.properties.layer.toString());
-      },
-      style: function(feature) {
-        return {
-          fillColor: '#913831',
-          color: '#FF4433',
-          fillOpacity: 0.2
-        };
-      },
-    }).addTo(map);
-
-    var railway = new L.GeoJSON.AJAX("{% url 'railway' %}", {
-      color: '#000000',
-      fillOpacity: 0.9,
-    }).addTo(map);
-
-    var recomended = new L.GeoJSON.AJAX("{% url 'recomended' %}", {
-      pointToLayer: function (feature, latlng) {
-        return L.circleMarker(latlng, {
-          radius: 8,
-          fillColor: '#fff',
-          color: '#489835',
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 0.5,
-          className: 'shadow-circle'
-        });
-      }
-    }).addTo(map);
-
-    var river = new L.GeoJSON.AJAX("{% url 'river' %}", {
-      color: '#0096FF',
-      fillOpacity: 0.9,
-    }).addTo(map);
-
-    var warning = new L.GeoJSON.AJAX("{% url 'warning' %}", {
-      onEachFeature: function(feature, layer) {
-        layer.bindPopup(feature.properties.layer.toString());
-      },
-      style: function(feature) {
-        return {
-          fillColor: '#FFBF00',
-          color: '#FFBF00',
-          fillOpacity: 0.2
-        };
-      },
-    }).addTo(map);
-
-    var baseLayers = {
-      "OpenStreetMap": osm,
-    };
-
-    var groupedOverlays = {
-      "Layers": {
-        "Boundary": boundary,
-        "Prohibited": prohibited,
-        "Railway": railway,
-        "Recommended": recomended,
-        "River": river,
-        "Warning": warning
-      },
-    };
-
-    L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
-  }
-
-  // Ensure Leaflet and plugins are fully loaded before calling our_layers
-  document.addEventListener('DOMContentLoaded', function () {
-      our_layers(map);
-  });
-</script> {% endcomment %}
-{% comment %} <script type="text/javascript" async defer>
-  var map = L.map('gis').setView([-6.8781, 39.2026], 13); // Initialize the map with default center and zoom
-  var marker;
-
-  function our_layers(map, options) {
-    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
-
-    var boundary = new L.GeoJSON.AJAX("{% url 'boundary' %}", {
-      color: '#489835',
-      fillOpacity: 0.1
-    }).addTo(map);
-
-    var prohibited = new L.GeoJSON.AJAX("{% url 'prohibited' %}", {
-      onEachFeature: function(feature, layer) {
-        layer.bindPopup(feature.properties.layer.toString());
-      },
-      style: function(feature) {
-        return {
-          fillColor: '#913831',
-          color: '#FF4433',
-          fillOpacity: 0.2
-        };
-      },
-    }).addTo(map);
-
-    var railway = new L.GeoJSON.AJAX("{% url 'railway' %}", {
-      color: '#000000',
-      fillOpacity: 0.9,
-    }).addTo(map);
-
-    var recomended = new L.GeoJSON.AJAX("{% url 'recomended' %}", {
-      pointToLayer: function (feature, latlng) {
-        return L.circleMarker(latlng, {
-          radius: 8,
-          fillColor: '#fff',
-          color: '#489835',
-          weight: 1,
-          opacity: 1,
-          fillOpacity: 0.5,
-          className: 'shadow-circle'
-        });
-      }
-    }).addTo(map);
-
-    var river = new L.GeoJSON.AJAX("{% url 'river' %}", {
-      color: '#0096FF',
-      fillOpacity: 0.9,
-    }).addTo(map);
-
-    var warning = new L.GeoJSON.AJAX("{% url 'warning' %}", {
-      onEachFeature: function(feature, layer) {
-        layer.bindPopup(feature.properties.layer.toString());
-      },
-      style: function(feature) {
-        return {
-          fillColor: '#FFBF00',
-          color: '#FFBF00',
-          fillOpacity: 0.2
-        };
-      },
-    }).addTo(map);
-
-    var baseLayers = {
-      "OpenStreetMap": osm,
-    };
-
-    var groupedOverlays = {
-      "Layers": {
-        "Boundary": boundary,
-        "Prohibited": prohibited,
-        "Railway": railway,
-        "Recommended": recomended,
-        "River": river,
-        "Warning": warning
-      },
-    };
-
-    L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
-
-    // Event listener for form submission
-    document.getElementById('coordinate-form').addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevent form submission
-      var lat = parseFloat(document.getElementById('latitude').value);
-      var lng = parseFloat(document.getElementById('longitude').value);
-
-      // Check if coordinates are within any GeoJSON layer
-      var layers = [boundary, prohibited, railway, recomended, river, warning];
-      var found = false;
-
-      layers.forEach(function(layer) {
-        layer.eachLayer(function(feature) {
-          if (feature.getBounds().contains([lat, lng])) {
-            if (marker) {
-              map.removeLayer(marker);
-            }
-            marker = L.marker([lat, lng]).addTo(map);
-            map.setView([lat, lng], 13);
-            document.getElementById('result').innerText = "Marker added at specified coordinates.";
-            found = true;
-          }
-        });
-      });
-
-      if (!found) {
-        alert("Data out of range. No matching feature found.");
-        document.getElementById('result').innerText = "";
-      }
-    });
-  }
-
-  // Ensure Leaflet and plugins are fully loaded before calling our_layers
-  document.addEventListener('DOMContentLoaded', function () {
-    our_layers(map);
-  });
-</script> {% endcomment %}
 <script type="text/javascript" async defer>
   var map = L.map('gis').setView([-6.8781, 39.2026], 13); // Initialize the map with default center and zoom
   var marker;
@@ -776,7 +404,6 @@
     our_layers(map);
   });
 </script>
-
 
 </body>
 </html>

@@ -179,7 +179,8 @@
 
       #result {
         margin-top: 8px;
-        font-size: 16px;
+        font-size: 12px;
+        font-weight: bold;
       }
 
       .success-message {
@@ -243,6 +244,21 @@
           opacity: 0;
           visibility: hidden;
         }
+
+
+        /*********** Media Queries ********/
+        @media (max-width: 768px) {
+          .container {
+            padding: 10px;
+          }
+          .form-container {
+            max-width: 100%;
+          }
+          .legend {
+            left: 50%;
+            transform: translateX(-50%);
+          }
+        }
       }
   </style>
 
@@ -284,9 +300,9 @@
   </div>
 </div>
 
+<!--Updated JS-->
 <script type="text/javascript" async defer>
   var map = L.map('gis').setView([-6.8781, 39.2026], 13); // Initialize the map with default center and zoom
-  var marker;
 
   function our_layers(map, options) {
     var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -371,39 +387,35 @@
       var lat = parseFloat(document.getElementById('latitude').value);
       var lng = parseFloat(document.getElementById('longitude').value);
 
-      // Check if coordinates are within any GeoJSON layer
-      var layers = [boundary, prohibited, railway, recomended, river, warning];
-      var found = false;
-
-      layers.forEach(function(layer) {
-        layer.eachLayer(function(feature) {
-          if (feature.getBounds().contains([lat, lng])) {
-            if (marker) {
-              map.removeLayer(marker);
-            }
-            marker = L.marker([lat, lng]).addTo(map);
-            map.setView([lat, lng], 13);
-            document.getElementById('result').innerHTML = "<span class='success-message'>Point added successfully.</span>";
-            found = true;
+      // Make AJAX request to check coordinates
+      fetch(`{% url 'check_coordinate' %}?latitude=${lat}&longitude=${lng}`)
+        .then(response => response.json())
+        .then(data => {
+          var resultElement = document.getElementById('result');
+          if (data.status === 'success') {
+            resultElement.innerHTML = `<div class="success-message">${data.area} found: ${data.label}</div>`;
+            
+            // Add a new marker without removing the previous one
+            L.marker([lat, lng]).addTo(map)
+              .bindPopup(`<b>${data.area}</b><br>${data.label}`).openPopup();
+            map.setView([lat, lng], 15);
+            
+            // Clear the form
+            document.getElementById('coordinate-form').reset();
+          } else {
+            resultElement.innerHTML = `<div class="error-message">${data.message}</div>`;
           }
+        })
+        .catch(error => {
+          console.error('Error:', error);
         });
-      });
-
-      if (!found) {
-        alert("Data out of range. No matching feature found.");
-        document.getElementById('result').innerText = "";
-      }
-
-      // Reset form fields
-      document.getElementById('coordinate-form').reset();
     });
   }
 
-  // Ensure Leaflet and plugins are fully loaded before calling our_layers
-  document.addEventListener('DOMContentLoaded', function () {
-    our_layers(map);
-  });
+  our_layers(map);
 </script>
+
+
 
 </body>
 </html>
